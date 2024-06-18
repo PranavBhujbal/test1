@@ -1,50 +1,42 @@
-name: "CodeQL"
+name: CI
 
 on:
   push:
-    branches: [ "master", "release" ]
+    branches: [ master ]
   pull_request:
-    branches: [ "master", "release" ]
-  schedule:
-    - cron: "0 0 * * 0"  # Weekly at midnight on Sunday
-  workflow_dispatch:  # Allows manual triggering
+    branches: [ master ]
 
 jobs:
-  analyze:
-    name: Analyze (${{ matrix.language }})
-    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
-    timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
-    permissions:
-      security-events: write
-      packages: read
-      actions: read
-      contents: read
+  build:
+
+    runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: false
       matrix:
-        language: ['javascript', 'typescript']
-        build-mode: ['default']
+        node-version: [14.x, 16.x]
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
       with:
-        languages: ${{ matrix.language }}
-        build-mode: ${{ matrix.build-mode }}
+        node-version: ${{ matrix.node-version }}
 
-    - if: matrix.build-mode == 'manual'
-      shell: bash
-      run: |
-        echo 'Replace this with the commands to build your code:'
-        echo '  npm install'
-        echo '  npm run build'
-        exit 1
+    - name: Install dependencies
+      run: npm install
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+    - name: Run tests
+      run: npm test
+
+    - name: Build the application
+      run: npm run build
+      env:
+        CI: true
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
       with:
-        category: "/language:${{matrix.language}}"
+        name: build
+        path: build
