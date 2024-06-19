@@ -23,16 +23,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies, build, and test
+      - name: Install dependencies,build and test
         run: |
           npm install
           npm run build
           npm test
         env:
           CI: true
-
-      - name: List build directory
-        run: ls -la build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -41,21 +38,11 @@ jobs:
           path: build
 
   deploy:
-    needs: build
+    name: Deploy
+    needs: [build]
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: build
-
-      - name: List downloaded build artifacts
-        run: ls -la build
-
       - name: Deploy to production
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
