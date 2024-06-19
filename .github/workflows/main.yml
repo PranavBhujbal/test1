@@ -31,6 +31,9 @@ jobs:
         env:
           CI: true
 
+      - name: List build directory
+        run: ls -la build
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -38,7 +41,7 @@ jobs:
           path: build
 
   deploy:
-    needs: [build]
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
@@ -49,6 +52,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
+
+      - name: List downloaded build artifacts
+        run: ls -la build
 
       - name: Deploy to production
         uses: johnbeynon/render-deploy-action@v0.0.8
