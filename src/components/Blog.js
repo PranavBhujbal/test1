@@ -6,7 +6,7 @@ function Blog() {
     <div className="blog-container">
       <div className="blog-post">
         <h2 className="blog-title">
-          The Importance of Financial Literacy in Schools
+           Financial Literacy
         </h2>
         <p className="blog-date">June 20, 2024</p>
         <div className="blog-content">
