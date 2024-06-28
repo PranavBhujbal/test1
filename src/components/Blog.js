@@ -5,9 +5,7 @@ function Blog() {
   return (
     <div className="blog-container">
       <div className="blog-post">
-        <h2 className="blog-title">
-           Financial Literacy
-        </h2>
+        <h2 className="blog-title">Cats and Dogs</h2>
         <p className="blog-date">June 20, 2024</p>
         <div className="blog-content">
           <p>
