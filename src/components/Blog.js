@@ -5,7 +5,7 @@ function Blog() {
   return (
     <div className="blog-container">
       <div className="blog-post">
-        <h2 className="blog-title">Financial Literacy </h2>
+        <h2 className="blog-title">Financial </h2>
         <p className="blog-date">June 20, 2024</p>
         <div className="blog-content">
           <p>
@@ -57,7 +57,7 @@ function Blog() {
             realities of adult life. By teaching them how to manage their
             finances effectively, we equip them with the tools needed to achieve
             financial stability, independence, and success. It's a crucial step
-            towards building a financially savvy and responsible generation.
+            towards building a financially savvy and responsible generation. 
           </p>
         </div>
       </div>
